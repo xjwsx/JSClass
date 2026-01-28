@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2장. 변수와 데이터 타입</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Malgun Gothic", sans-serif;
+        line-height: 1.8;
+        padding: 40px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #f7df1e;
+        background: #323330;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+      h2 {
+        color: #323330;
+        border-left: 4px solid #f7df1e;
+        padding-left: 15px;
+        margin: 30px 0 15px 0;
+      }
+      h3 {
+        color: #555;
+        margin: 20px 0 10px 0;
+      }
+      .code-box {
+        background: #2d2d2d;
+        color: #f8f8f2;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-family: "Consolas", "Monaco", monospace;
+        font-size: 14px;
+        overflow-x: auto;
+      }
+      .comment {
+        color: #6a9955;
+      }
+      .keyword {
+        color: #569cd6;
+      }
+      .string {
+        color: #ce9178;
+      }
+      .number {
+        color: #b5cea8;
+      }
+      .boolean {
+        color: #569cd6;
+      }
+      .result-box {
+        background: #e8f5e9;
+        border: 2px solid #4caf50;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .result-box::before {
+        content: "📌 결과: ";
+        font-weight: bold;
+        color: #2e7d32;
+      }
+      .warning-box {
+        background: #ffebee;
+        border: 2px solid #f44336;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .warning-box::before {
+        content: "⚠️ 주의: ";
+        font-weight: bold;
+        color: #c62828;
+      }
+      .tip-box {
+        background: #fff3e0;
+        border: 2px solid #ff9800;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .tip-box::before {
+        content: "💡 TIP: ";
+        font-weight: bold;
+        color: #e65100;
+      }
+      .compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+      .compare-table th,
+      .compare-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      .compare-table th {
+        background: #f7df1e;
+        color: #323330;
+      }
+      .compare-table tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+      .section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+      }
+      .demo-area {
+        background: #e3f2fd;
+        border: 2px dashed #2196f3;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      button {
+        background: #f7df1e;
+        color: #323330;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        transform: scale(1.05);
+      }
+      input[type="text"],
+      input[type="number"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        margin: 5px;
+        width: 200px;
+      }
+      #output {
+        margin-top: 15px;
+        padding: 15px;
+        background: white;
+        border-radius: 5px;
+        min-height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📦 2장. 변수와 데이터 타입</h1>
+
+      <!-- 섹션 1: 변수란? -->
+      <div class="section">
+        <h2>1. 변수(Variable)란?</h2>
+        <p>
+          변수는 <strong>데이터를 저장하는 상자</strong>입니다. 상자에 이름표를
+          붙여서 나중에 다시 사용할 수 있습니다.
+        </p>
+
+        <div class="code-box">
+          <span class="comment">// 변수 선언과 값 할당</span><br />
+          <span class="keyword">let</span> name =
+          <span class="string">"홍길동"</span>;&nbsp;&nbsp;<span class="comment"
+            >// name이라는 상자에 "홍길동"을 넣음</span
+          ><br />
+          <span class="keyword">let</span> age =
+          <span class="number">20</span
+          >;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// age라는 상자에 20을 넣음</span
+          ><br /><br />
+          console.log(name);&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// "홍길동" 출력</span
+          ><br />
+          console.log(age);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 20 출력</span
+          >
+        </div>
+      </div>
+
+      <!-- 섹션 2: 변수 선언 방법 -->
+      <div class="section">
+        <h2>2. 변수 선언 방법: let, const, var</h2>
+
+        <table class="compare-table">
+          <tr>
+            <th>키워드</th>
+            <th>재할당</th>
+            <th>사용 상황</th>
+          </tr>
+          <tr>
+            <td><code>let</code></td>
+            <td>⭕ 가능</td>
+            <td>값이 변할 수 있는 변수</td>
+          </tr>
+          <tr>
+            <td><code>const</code></td>
+            <td>❌ 불가능</td>
+            <td>값이 변하지 않는 상수</td>
+          </tr>
+          <tr>
+            <td><code>var</code></td>
+            <td>⭕ 가능</td>
+            <td>⚠️ 옛날 방식 (사용 비추천)</td>
+          </tr>
+        </table>
+
+        <div class="code-box">
+          <span class="comment">// let: 값을 나중에 바꿀 수 있음</span><br />
+          <span class="keyword">let</span> score =
+          <span class="number">80</span>;<br />
+          score = <span class="number">90</span>;&nbsp;&nbsp;<span
+            class="comment"
+            >// ✅ OK! 값 변경 가능</span
+          ><br /><br />
+
+          <span class="comment">// const: 값을 바꿀 수 없음 (상수)</span><br />
+          <span class="keyword">const</span> PI =
+          <span class="number">3.14159</span>;<br />
+          <span class="comment"
+            >// PI = 3.14;&nbsp;&nbsp;❌ 에러! const는 변경 불가</span
+          >
+        </div>
+
+        <div class="tip-box">
+          <strong>권장사항:</strong> 기본적으로 <code>const</code>를 사용하고,
+          값이 변해야 할 때만 <code>let</code>을 사용하세요!
+        </div>
+      </div>
+
+      <!-- 섹션 3: 데이터 타입 -->
+      <div class="section">
+        <h2>3. 데이터 타입 (Data Types)</h2>
+        <p>JavaScript에서 다룰 수 있는 데이터의 종류입니다.</p>
+
+        <h3>① 문자열 (String) - 텍스트</h3>
+        <div class="code-box">
+          <span class="keyword">let</span> greeting =
+          <span class="string">"안녕하세요"</span>;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 큰따옴표</span
+          ><br />
+          <span class="keyword">let</span> name =
+          <span class="string">'홍길동'</span
+          >;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 작은따옴표</span
+          ><br />
+          <span class="keyword">let</span> message =
+          <span class="string">`나이: ${age}살`</span>;&nbsp;<span
+            class="comment"
+            >// 백틱 (템플릿 리터럴)</span
+          >
+        </div>
+
+        <h3>② 숫자 (Number)</h3>
+        <div class="code-box">
+          <span class="keyword">let</span> integer =
+          <span class="number">42</span
+          >;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 정수</span
+          ><br />
+          <span class="keyword">let</span> decimal =
+          <span class="number">3.14</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 소수</span
+          ><br />
+          <span class="keyword">let</span> negative =
+          <span class="number">-10</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 음수</span
+          >
+        </div>
+
+        <h3>③ 불리언 (Boolean) - 참/거짓</h3>
+        <div class="code-box">
+          <span class="keyword">let</span> isStudent =
+          <span class="boolean">true</span>;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 참</span
+          ><br />
+          <span class="keyword">let</span> isAdult =
+          <span class="boolean">false</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 거짓</span
+          >
+        </div>
+
+        <h3>④ undefined와 null</h3>
+        <div class="code-box">
+          <span class="keyword">let</span>
+          x;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// undefined: 값이 할당되지 않음</span
+          ><br />
+          <span class="keyword">let</span> y =
+          <span class="boolean">null</span
+          >;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// null: 의도적으로 "비어있음"을 표시</span
+          >
+        </div>
+
+        <h3>⑤ 배열 (Array) - 여러 값의 목록</h3>
+        <div class="code-box">
+          <span class="keyword">let</span> fruits = [<span class="string"
+            >"사과"</span
+          >, <span class="string">"바나나"</span>,
+          <span class="string">"오렌지"</span>];<br />
+          console.log(fruits[<span class="number">0</span>]);&nbsp;&nbsp;<span
+            class="comment"
+            >// "사과" (0번부터 시작!)</span
+          ><br />
+          console.log(fruits[<span class="number">1</span>]);&nbsp;&nbsp;<span
+            class="comment"
+            >// "바나나"</span
+          >
+        </div>
+
+        <h3>⑥ 객체 (Object) - 관련 데이터 묶음</h3>
+        <div class="code-box">
+          <span class="keyword">let</span> person = {<br />
+          &nbsp;&nbsp;name: <span class="string">"홍길동"</span>,<br />
+          &nbsp;&nbsp;age: <span class="number">25</span>,<br />
+          &nbsp;&nbsp;isStudent: <span class="boolean">true</span><br />
+          };<br /><br />
+          console.log(person.name);&nbsp;&nbsp;<span class="comment"
+            >// "홍길동"</span
+          ><br />
+          console.log(person.age);&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 25</span
+          >
+        </div>
+      </div>
+
+      <!-- 섹션 4: typeof 연산자 -->
+      <div class="section">
+        <h2>4. typeof - 데이터 타입 확인하기</h2>
+
+        <div class="code-box">
+          console.log(<span class="keyword">typeof</span>
+          <span class="string">"Hello"</span>);&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// "string"</span
+          ><br />
+          console.log(<span class="keyword">typeof</span>
+          <span class="number">42</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// "number"</span
+          ><br />
+          console.log(<span class="keyword">typeof</span>
+          <span class="boolean">true</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// "boolean"</span
+          ><br />
+          console.log(<span class="keyword">typeof</span>
+          <span class="boolean">undefined</span>);&nbsp;<span class="comment"
+            >// "undefined"</span
+          ><br />
+          console.log(<span class="keyword">typeof</span> [<span class="number"
+            >1</span
+          >,<span class="number">2</span>,<span class="number">3</span
+          >]);&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// "object" (배열도 객체!)</span
+          >
+        </div>
+      </div>
+
+      <!-- 섹션 5: 실습 -->
+      <div class="section">
+        <h2>5. 직접 해보기</h2>
+
+        <div class="demo-area">
+          <p><strong>자기소개 카드 만들기</strong></p>
+          <p>
+            이름: <input type="text" id="inputName" placeholder="이름 입력" />
+          </p>
+          <p>
+            나이: <input type="number" id="inputAge" placeholder="나이 입력" />
+          </p>
+          <p>
+            취미: <input type="text" id="inputHobby" placeholder="취미 입력" />
+          </p>
+          <button onclick="createCard()">자기소개 카드 생성</button>
+          <div id="output"></div>
+        </div>
+      </div>
+
+      <!-- 섹션 6: 변수 이름 규칙 -->
+      <div class="section" style="border-bottom: none">
+        <h2>6. 변수 이름 규칙</h2>
+
+        <div class="code-box">
+          <span class="comment">// ✅ 올바른 변수 이름</span><br />
+          <span class="keyword">let</span> userName;<br />
+          <span class="keyword">let</span> user_name;<br />
+          <span class="keyword">let</span> _private;<br />
+          <span class="keyword">let</span> $element;<br />
+          <span class="keyword">let</span> myAge123;<br /><br />
+          <span class="comment">// ❌ 잘못된 변수 이름</span><br />
+          <span class="comment"
+            >// let 123abc;&nbsp;&nbsp;&nbsp;// 숫자로 시작 불가</span
+          ><br />
+          <span class="comment"
+            >// let my-name;&nbsp;&nbsp;// 하이픈(-) 사용 불가</span
+          ><br />
+          <span class="comment"
+            >// let let;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 예약어 사용
+            불가</span
+          >
+        </div>
+
+        <div class="tip-box">
+          <strong>네이밍 컨벤션:</strong> JavaScript에서는
+          <code>camelCase</code>(낙타 표기법)를 권장합니다!<br />
+          예: <code>firstName</code>, <code>totalPrice</code>,
+          <code>isLoggedIn</code>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 자기소개 카드 생성 함수
+      function createCard() {
+        // 입력값 가져오기
+        const name = document.getElementById("inputName").value;
+        const age = document.getElementById("inputAge").value;
+        const hobby = document.getElementById("inputHobby").value;
+        const boolean = true;
+
+        // 빈 값 체크
+        if (!name || !age || !hobby) {
+          document.getElementById("output").innerHTML =
+            "⚠️ 모든 항목을 입력해주세요!";
+          return;
+        }
+
+        // 템플릿 리터럴로 카드 생성
+        const card = `
+                <div style="background: #f7df1e; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                    <h3>👋 안녕하세요!</h3>
+                    <p>저는 <strong>${name}</strong>입니다.</p>
+                    <p>나이는 <strong>${age}살</strong>이고,</p>
+                    <p>취미는 <strong>${hobby}</strong>입니다.</p>
+                </div>
+            `;
+
+        document.getElementById("output").innerHTML = card;
+
+        // 콘솔에도 출력
+        console.log("=== 자기소개 정보 ===");
+        console.log("이름:", name, "- 타입:", typeof name);
+        console.log("나이:", age, "- 타입:", typeof age);
+        console.log("취미:", hobby, "- 타입:", typeof hobby);
+      }
+
+      // 페이지 로드 시 콘솔 메시지
+      console.log("📦 2장. 변수와 데이터 타입");
+      console.log("F12를 눌러 콘솔을 확인하세요!");
+    </script>
+  </body>
+</html>

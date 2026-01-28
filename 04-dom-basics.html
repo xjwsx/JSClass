@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4장. DOM 조작 기초</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Malgun Gothic", sans-serif;
+        line-height: 1.8;
+        padding: 40px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #f7df1e;
+        background: #323330;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+      h2 {
+        color: #323330;
+        border-left: 4px solid #f7df1e;
+        padding-left: 15px;
+        margin: 30px 0 15px 0;
+      }
+      .code-box {
+        background: #2d2d2d;
+        color: #f8f8f2;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-family: "Consolas", "Monaco", monospace;
+        font-size: 14px;
+        overflow-x: auto;
+      }
+      .comment {
+        color: #6a9955;
+      }
+      .keyword {
+        color: #569cd6;
+      }
+      .string {
+        color: #ce9178;
+      }
+      .function {
+        color: #dcdcaa;
+      }
+      .property {
+        color: #9cdcfe;
+      }
+      .tag {
+        color: #569cd6;
+      }
+      .attr {
+        color: #9cdcfe;
+      }
+      .tip-box {
+        background: #fff3e0;
+        border: 2px solid #ff9800;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .tip-box::before {
+        content: "💡 TIP: ";
+        font-weight: bold;
+        color: #e65100;
+      }
+      .concept-box {
+        background: #e8f5e9;
+        border: 2px solid #4caf50;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+      }
+      .demo-area {
+        background: #e3f2fd;
+        border: 2px dashed #2196f3;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      button {
+        background: #f7df1e;
+        color: #323330;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        transition: all 0.3s;
+      }
+      button:hover {
+        transform: scale(1.05);
+        background: #323330;
+        color: #f7df1e;
+      }
+      .demo-box {
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 18px;
+        transition: all 0.3s;
+      }
+      #demo1 {
+        background: #ffebee;
+        border: 2px solid #f44336;
+      }
+      #demo2 {
+        background: #e3f2fd;
+        border: 2px solid #2196f3;
+      }
+      #demo3 {
+        background: #f3e5f5;
+        border: 2px solid #9c27b0;
+      }
+      .color-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid white;
+        cursor: pointer;
+        margin: 5px;
+      }
+      #imageDemo {
+        max-width: 200px;
+        border-radius: 10px;
+        transition: all 0.3s;
+      }
+      .hidden {
+        display: none;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background: #f7df1e;
+        color: #323330;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌳 4장. DOM 조작 기초</h1>
+
+      <!-- 섹션 1: DOM이란? -->
+      <div class="section">
+        <h2>1. DOM이란?</h2>
+
+        <div class="concept-box">
+          <strong>DOM (Document Object Model)</strong><br />
+          HTML 문서를 JavaScript가 이해할 수 있는 객체 구조로 표현한
+          것입니다.<br />
+          JavaScript로 DOM을 조작하면 웹 페이지의 내용, 구조, 스타일을 동적으로
+          변경할 수 있습니다.
+        </div>
+
+        <div class="code-box">
+          <span class="comment">&lt;!-- HTML 구조 --&gt;</span><br />
+          &lt;<span class="tag">html</span>&gt;<br />
+          &nbsp;&nbsp;&lt;<span class="tag">head</span>&gt;...&lt;/<span
+            class="tag"
+            >head</span
+          >&gt;<br />
+          &nbsp;&nbsp;&lt;<span class="tag">body</span>&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="tag">h1</span
+          >&gt;제목&lt;/<span class="tag">h1</span>&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="tag">p</span
+          >&gt;내용&lt;/<span class="tag">p</span>&gt;<br />
+          &nbsp;&nbsp;&lt;/<span class="tag">body</span>&gt;<br />
+          &lt;/<span class="tag">html</span>&gt;<br /><br />
+          <span class="comment"
+            >// JavaScript로 이 구조에 접근하고 변경할 수 있습니다!</span
+          >
+        </div>
+      </div>
+
+      <!-- 섹션 2: 요소 선택하기 -->
+      <div class="section">
+        <h2>2. 요소 선택하기</h2>
+        <p>DOM을 조작하려면 먼저 원하는 요소를 선택해야 합니다.</p>
+
+        <table>
+          <tr>
+            <th>메서드</th>
+            <th>설명</th>
+            <th>반환값</th>
+          </tr>
+          <tr>
+            <td><code>getElementById("id")</code></td>
+            <td>id로 요소 선택</td>
+            <td>단일 요소</td>
+          </tr>
+          <tr>
+            <td><code>querySelector("selector")</code></td>
+            <td>CSS 선택자로 첫 번째 요소 선택</td>
+            <td>단일 요소</td>
+          </tr>
+          <tr>
+            <td><code>querySelectorAll("selector")</code></td>
+            <td>CSS 선택자로 모든 요소 선택</td>
+            <td>요소 목록</td>
+          </tr>
+        </table>
+
+        <div class="code-box">
+          <span class="comment">// id로 선택 (가장 많이 사용)</span><br />
+          <span class="keyword">const</span> header = document.<span
+            class="function"
+            >getElementById</span
+          >(<span class="string">"header"</span>);<br /><br />
+
+          <span class="comment">// CSS 선택자로 선택</span><br />
+          <span class="keyword">const</span> firstBtn = document.<span
+            class="function"
+            >querySelector</span
+          >(<span class="string">"button"</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 첫 번째 버튼</span
+          ><br />
+          <span class="keyword">const</span> allBtns = document.<span
+            class="function"
+            >querySelectorAll</span
+          >(<span class="string">"button"</span>);&nbsp;<span class="comment"
+            >// 모든 버튼</span
+          ><br /><br />
+
+          <span class="comment">// 다양한 CSS 선택자 사용 가능</span><br />
+          document.<span class="function">querySelector</span>(<span
+            class="string"
+            >".class-name"</span
+          >);&nbsp;&nbsp;&nbsp;<span class="comment">// 클래스로 선택</span
+          ><br />
+          document.<span class="function">querySelector</span>(<span
+            class="string"
+            >"#id-name"</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// id로 선택</span
+          ><br />
+          document.<span class="function">querySelector</span>(<span
+            class="string"
+            >"div > p"</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 자식 선택자</span
+          >
+        </div>
+      </div>
+
+      <!-- 섹션 3: 내용 변경하기 -->
+      <div class="section">
+        <h2>3. 내용 변경하기</h2>
+
+        <div class="code-box">
+          <span class="comment">// innerHTML: HTML 태그 포함 가능</span><br />
+          element.<span class="property">innerHTML</span> =
+          <span class="string">"&lt;strong&gt;굵은 글씨&lt;/strong&gt;"</span
+          >;<br /><br />
+
+          <span class="comment">// textContent: 텍스트만 (더 안전)</span><br />
+          element.<span class="property">textContent</span> =
+          <span class="string">"순수 텍스트만"</span>;<br /><br />
+
+          <span class="comment">// value: input 요소의 값</span><br />
+          inputElement.<span class="property">value</span> =
+          <span class="string">"입력값"</span>;
+        </div>
+
+        <h3>직접 해보기</h3>
+        <div class="demo-area">
+          <div id="demo1" class="demo-box">이 텍스트가 변경됩니다!</div>
+          <button onclick="changeText()">텍스트 변경</button>
+          <button onclick="changeHTML()">HTML로 변경</button>
+          <button onclick="resetDemo1()">원래대로</button>
+        </div>
+      </div>
+
+      <!-- 섹션 4: 스타일 변경하기 -->
+      <div class="section">
+        <h2>4. 스타일 변경하기</h2>
+
+        <div class="code-box">
+          <span class="comment">// style 속성으로 직접 변경</span><br />
+          element.<span class="property">style</span>.color =
+          <span class="string">"red"</span>;<br />
+          element.<span class="property">style</span>.backgroundColor =
+          <span class="string">"yellow"</span>;&nbsp;&nbsp;<span class="comment"
+            >// camelCase 사용!</span
+          ><br />
+          element.<span class="property">style</span>.fontSize =
+          <span class="string">"20px"</span>;<br />
+          element.<span class="property">style</span>.border =
+          <span class="string">"2px solid blue"</span>;
+        </div>
+
+        <div class="tip-box">
+          CSS에서 <code>background-color</code>는 JavaScript에서
+          <code>backgroundColor</code>로 씁니다.<br />
+          하이픈(-) 대신 camelCase를 사용합니다!
+        </div>
+
+        <h3>직접 해보기</h3>
+        <div class="demo-area">
+          <div id="demo2" class="demo-box">스타일이 변경됩니다!</div>
+          <p>색상 선택:</p>
+          <button
+            class="color-btn"
+            style="background: #f44336"
+            onclick="changeColor('#f44336')"
+          ></button>
+          <button
+            class="color-btn"
+            style="background: #4caf50"
+            onclick="changeColor('#4caf50')"
+          ></button>
+          <button
+            class="color-btn"
+            style="background: #2196f3"
+            onclick="changeColor('#2196f3')"
+          ></button>
+          <button
+            class="color-btn"
+            style="background: #ff9800"
+            onclick="changeColor('#ff9800')"
+          ></button>
+          <button
+            class="color-btn"
+            style="background: #9c27b0"
+            onclick="changeColor('#9c27b0')"
+          ></button>
+          <br /><br />
+          <button onclick="changeFontSize('increase')">글자 크게</button>
+          <button onclick="changeFontSize('decrease')">글자 작게</button>
+        </div>
+      </div>
+
+      <!-- 섹션 5: 클래스 조작하기 -->
+      <div class="section">
+        <h2>5. 클래스 조작하기</h2>
+
+        <div class="code-box">
+          <span class="comment">// classList로 클래스 조작</span><br />
+          element.<span class="property">classList</span>.<span class="function"
+            >add</span
+          >(<span class="string">"active"</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 클래스 추가</span
+          ><br />
+          element.<span class="property">classList</span>.<span class="function"
+            >remove</span
+          >(<span class="string">"active"</span>);&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 클래스 제거</span
+          ><br />
+          element.<span class="property">classList</span>.<span class="function"
+            >toggle</span
+          >(<span class="string">"active"</span>);&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 있으면 제거, 없으면 추가</span
+          ><br />
+          element.<span class="property">classList</span>.<span class="function"
+            >contains</span
+          >(<span class="string">"active"</span>);&nbsp;<span class="comment"
+            >// 클래스 존재 여부 (true/false)</span
+          >
+        </div>
+
+        <style>
+          .highlight {
+            background: #f7df1e !important;
+            color: #323330 !important;
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+          }
+        </style>
+
+        <h3>직접 해보기</h3>
+        <div class="demo-area">
+          <div id="demo3" class="demo-box">클래스가 토글됩니다!</div>
+          <button onclick="toggleHighlight()">highlight 클래스 토글</button>
+        </div>
+      </div>
+
+      <!-- 섹션 6: 속성 변경하기 -->
+      <div class="section">
+        <h2>6. 속성(Attribute) 변경하기</h2>
+
+        <div class="code-box">
+          <span class="comment">// 속성 가져오기/설정하기</span><br />
+          element.<span class="function">getAttribute</span>(<span
+            class="string"
+            >"src"</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// src 속성 값 가져오기</span
+          ><br />
+          element.<span class="function">setAttribute</span>(<span
+            class="string"
+            >"src"</span
+          >, <span class="string">"new.jpg"</span>);&nbsp;<span class="comment"
+            >// src 속성 변경</span
+          ><br /><br />
+
+          <span class="comment">// 일부 속성은 직접 접근 가능</span><br />
+          imgElement.<span class="property">src</span> =
+          <span class="string">"image.jpg"</span>;<br />
+          linkElement.<span class="property">href</span> =
+          <span class="string">"https://example.com"</span>;<br />
+          inputElement.<span class="property">disabled</span> =
+          <span class="boolean">true</span>;
+        </div>
+
+        <h3>직접 해보기</h3>
+        <div class="demo-area">
+          <img
+            id="imageDemo"
+            src="https://via.placeholder.com/200x150/f7df1e/323330?text=Image+1"
+            alt="데모 이미지"
+          />
+          <br /><br />
+          <button onclick="changeImage(1)">이미지 1</button>
+          <button onclick="changeImage(2)">이미지 2</button>
+          <button onclick="changeImage(3)">이미지 3</button>
+        </div>
+      </div>
+
+      <!-- 섹션 7: 요소 생성/추가/삭제 -->
+      <div class="section">
+        <h2>7. 요소 생성, 추가, 삭제</h2>
+
+        <div class="code-box">
+          <span class="comment">// 새 요소 생성</span><br />
+          <span class="keyword">const</span> newDiv = document.<span
+            class="function"
+            >createElement</span
+          >(<span class="string">"div"</span>);<br />
+          newDiv.<span class="property">textContent</span> =
+          <span class="string">"새로운 요소!"</span>;<br />
+          newDiv.<span class="property">classList</span>.<span class="function"
+            >add</span
+          >(<span class="string">"my-class"</span>);<br /><br />
+
+          <span class="comment">// 부모 요소에 추가</span><br />
+          parent.<span class="function">appendChild</span
+          >(newDiv);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 맨 뒤에 추가</span
+          ><br />
+          parent.<span class="function">insertBefore</span>(newDiv,
+          sibling);&nbsp;<span class="comment">// 특정 위치에 추가</span
+          ><br /><br />
+
+          <span class="comment">// 요소 삭제</span><br />
+          element.<span class="function">remove</span
+          >();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 자기 자신 삭제</span
+          ><br />
+          parent.<span class="function">removeChild</span
+          >(child);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 자식 요소 삭제</span
+          >
+        </div>
+
+        <h3>직접 해보기</h3>
+        <div class="demo-area">
+          <input type="text" id="itemInput" placeholder="항목 입력" />
+          <button onclick="addItem()">항목 추가</button>
+          <button onclick="clearList()">전체 삭제</button>
+          <ul id="itemList" style="text-align: left; margin-top: 15px">
+            <li>예시 항목 (클릭하면 삭제)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 섹션 8: 요약 -->
+      <div class="section" style="border-bottom: none">
+        <h2>8. 정리</h2>
+
+        <table>
+          <tr>
+            <th>작업</th>
+            <th>코드</th>
+          </tr>
+          <tr>
+            <td>요소 선택</td>
+            <td>
+              <code>document.getElementById("id")</code><br /><code
+                >document.querySelector(".class")</code
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>내용 변경</td>
+            <td>
+              <code>element.innerHTML = "..."</code><br /><code
+                >element.textContent = "..."</code
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>스타일 변경</td>
+            <td><code>element.style.color = "red"</code></td>
+          </tr>
+          <tr>
+            <td>클래스 조작</td>
+            <td><code>element.classList.add/remove/toggle("class")</code></td>
+          </tr>
+          <tr>
+            <td>속성 변경</td>
+            <td><code>element.setAttribute("attr", "value")</code></td>
+          </tr>
+          <tr>
+            <td>요소 생성</td>
+            <td><code>document.createElement("tag")</code></td>
+          </tr>
+          <tr>
+            <td>요소 추가</td>
+            <td><code>parent.appendChild(element)</code></td>
+          </tr>
+          <tr>
+            <td>요소 삭제</td>
+            <td><code>element.remove()</code></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      // 섹션 3: 텍스트 변경
+      function changeText() {
+        const demo = document.getElementById("demo1");
+        demo.textContent = "textContent로 변경되었습니다! 🎉";
+      }
+
+      function changeHTML() {
+        const demo = document.getElementById("demo1");
+        demo.innerHTML =
+          "<strong>innerHTML</strong>로 <em>HTML 태그</em>를 넣을 수 있습니다!";
+      }
+
+      function resetDemo1() {
+        const demo = document.getElementById("demo1");
+        demo.innerHTML = "이 텍스트가 변경됩니다!";
+      }
+
+      // 섹션 4: 스타일 변경
+      function changeColor(color) {
+        const demo = document.getElementById("demo2");
+        demo.style.backgroundColor = color;
+        demo.style.color = "white";
+        demo.style.borderColor = color;
+      }
+
+      let currentFontSize = 18;
+      function changeFontSize(action) {
+        const demo = document.getElementById("demo2");
+        if (action === "increase") {
+          currentFontSize += 4;
+        } else {
+          currentFontSize = Math.max(12, currentFontSize - 4);
+        }
+        demo.style.fontSize = currentFontSize + "px";
+        demo.textContent = `글자 크기: ${currentFontSize}px`;
+      }
+
+      // 섹션 5: 클래스 토글
+      function toggleHighlight() {
+        const demo = document.getElementById("demo3");
+        demo.classList.toggle("highlight");
+
+        if (demo.classList.contains("highlight")) {
+          demo.textContent = "highlight 클래스가 추가됨!";
+        } else {
+          demo.textContent = "highlight 클래스가 제거됨!";
+        }
+      }
+
+      // 섹션 6: 이미지 변경
+      function changeImage(num) {
+        const img = document.getElementById("imageDemo");
+        const colors = ["f7df1e/323330", "2196f3/ffffff", "f44336/ffffff"];
+        img.src = `https://via.placeholder.com/200x150/${colors[num - 1]}?text=Image+${num}`;
+      }
+
+      // 섹션 7: 항목 추가/삭제
+      function addItem() {
+        const input = document.getElementById("itemInput");
+        const list = document.getElementById("itemList");
+
+        if (input.value.trim() === "") {
+          alert("항목을 입력해주세요!");
+          return;
+        }
+
+        // 새 li 요소 생성
+        const newItem = document.createElement("li");
+        newItem.textContent = input.value;
+        newItem.style.cursor = "pointer";
+        newItem.style.padding = "5px";
+        newItem.style.margin = "5px 0";
+        newItem.style.background = "#fff";
+        newItem.style.borderRadius = "5px";
+
+        // 클릭하면 삭제되도록 설정
+        newItem.onclick = function () {
+          this.remove();
+        };
+
+        // 리스트에 추가
+        list.appendChild(newItem);
+
+        // 입력창 비우기
+        input.value = "";
+        input.focus();
+
+        console.log("항목 추가:", newItem.textContent);
+      }
+
+      function clearList() {
+        const list = document.getElementById("itemList");
+        list.innerHTML = "";
+        console.log("리스트 전체 삭제");
+      }
+
+      // 엔터 키로도 항목 추가
+      document
+        .getElementById("itemInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            addItem();
+          }
+        });
+
+      // 기존 예시 항목에도 클릭 이벤트 추가
+      document.querySelector("#itemList li").onclick = function () {
+        this.remove();
+      };
+
+      console.log("🌳 4장. DOM 조작 기초");
+      console.log("F12를 눌러 콘솔을 확인하세요!");
+    </script>
+  </body>
+</html>

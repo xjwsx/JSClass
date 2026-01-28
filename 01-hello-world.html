@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1장. Hello World - JavaScript 첫 시작</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Malgun Gothic", sans-serif;
+        line-height: 1.8;
+        padding: 40px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #f7df1e;
+        background: #323330;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+      h2 {
+        color: #323330;
+        border-left: 4px solid #f7df1e;
+        padding-left: 15px;
+        margin: 30px 0 15px 0;
+      }
+      .code-box {
+        background: #2d2d2d;
+        color: #f8f8f2;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-family: "Consolas", "Monaco", monospace;
+        font-size: 14px;
+        overflow-x: auto;
+      }
+      .code-box .comment {
+        color: #6a9955;
+      }
+      .code-box .keyword {
+        color: #569cd6;
+      }
+      .code-box .string {
+        color: #ce9178;
+      }
+      .code-box .function {
+        color: #dcdcaa;
+      }
+      .result-box {
+        background: #e8f5e9;
+        border: 2px solid #4caf50;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .result-box::before {
+        content: "📌 결과: ";
+        font-weight: bold;
+        color: #2e7d32;
+      }
+      .tip-box {
+        background: #fff3e0;
+        border: 2px solid #ff9800;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .tip-box::before {
+        content: "💡 TIP: ";
+        font-weight: bold;
+        color: #e65100;
+      }
+      .demo-area {
+        background: #e3f2fd;
+        border: 2px dashed #2196f3;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        text-align: center;
+      }
+      button {
+        background: #f7df1e;
+        color: #323330;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        transition: transform 0.2s;
+      }
+      button:hover {
+        transform: scale(1.05);
+      }
+      #output {
+        margin-top: 15px;
+        padding: 10px;
+        background: white;
+        border-radius: 5px;
+        min-height: 40px;
+      }
+      .section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 1장. Hello World - JavaScript 첫 시작</h1>
+
+      <!-- 섹션 1: JavaScript 작성 위치 -->
+      <div class="section">
+        <h2>1. JavaScript는 어디에 작성하나요?</h2>
+        <p>
+          JavaScript 코드는 HTML 파일 안에서 <code>&lt;script&gt;</code> 태그
+          안에 작성합니다.
+        </p>
+
+        <div class="code-box">
+          <span class="comment">&lt;!-- HTML 파일 안에서 --&gt;</span><br />
+          &lt;<span class="keyword">script</span>&gt;<br />
+          &nbsp;&nbsp;<span class="comment"
+            >// 여기에 JavaScript 코드를 작성합니다</span
+          ><br />
+          &nbsp;&nbsp;<span class="function">alert</span>(<span class="string"
+            >"안녕하세요!"</span
+          >);<br />
+          &lt;/<span class="keyword">script</span>&gt;
+        </div>
+
+        <div class="tip-box">
+          <code>&lt;script&gt;</code> 태그는 보통
+          <code>&lt;/body&gt;</code> 바로 위에 넣습니다. HTML이 먼저 로드된 후
+          JavaScript가 실행되도록 하기 위해서입니다.
+        </div>
+      </div>
+
+      <!-- 섹션 2: 출력 방법 -->
+      <div class="section">
+        <h2>2. JavaScript로 출력하는 4가지 방법</h2>
+
+        <h3 style="margin-top: 20px">① alert() - 알림창 띄우기</h3>
+        <div class="code-box">
+          <span class="function">alert</span>(<span class="string"
+            >"안녕하세요!"</span
+          >);
+        </div>
+        <div class="result-box">화면에 알림창이 나타납니다</div>
+
+        <h3 style="margin-top: 20px">② console.log() - 콘솔에 출력 (개발용)</h3>
+        <div class="code-box">
+          <span class="function">console.log</span>(<span class="string"
+            >"콘솔에 출력됩니다"</span
+          >);
+        </div>
+        <div class="result-box">F12 → Console 탭에서 확인할 수 있습니다</div>
+
+        <h3 style="margin-top: 20px">③ document.write() - 화면에 직접 출력</h3>
+        <div class="code-box">
+          <span class="function">document.write</span>(<span class="string"
+            >"화면에 출력됩니다"</span
+          >);
+        </div>
+        <div class="result-box">HTML 페이지에 직접 텍스트가 추가됩니다</div>
+
+        <h3 style="margin-top: 20px">④ innerHTML - 특정 요소의 내용 변경</h3>
+        <div class="code-box">
+          document.<span class="function">getElementById</span>(<span
+            class="string"
+            >"demo"</span
+          >).innerHTML = <span class="string">"내용 변경!"</span>;
+        </div>
+        <div class="result-box">id="demo"인 요소의 내용이 변경됩니다</div>
+      </div>
+
+      <!-- 섹션 3: 실습 -->
+      <div class="section">
+        <h2>3. 직접 해보기</h2>
+        <p>아래 버튼을 클릭해서 각 출력 방법을 확인해보세요!</p>
+
+        <div class="demo-area">
+          <button onclick="alert('안녕하세요! 🎉')">alert() 실행</button>
+          <button onclick="console.log('콘솔을 확인하세요! (F12)')">
+            console.log() 실행
+          </button>
+          <button
+            onclick="
+              document.getElementById('output').innerHTML =
+                '내용이 변경되었습니다! ✨'
+            "
+          >
+            innerHTML 변경
+          </button>
+          <div id="output">← 여기에 결과가 표시됩니다</div>
+        </div>
+
+        <div class="tip-box">
+          <code>console.log()</code>는 개발할 때 값을 확인하는 용도로 가장 많이
+          사용됩니다!
+        </div>
+      </div>
+
+      <!-- 섹션 4: 주석 -->
+      <div class="section">
+        <h2>4. 주석 (Comment)</h2>
+        <p>주석은 코드에 메모를 남기는 것으로, 실행되지 않습니다.</p>
+
+        <div class="code-box">
+          <span class="comment">// 한 줄 주석: 슬래시 2개</span><br /><br />
+          <span class="comment"
+            >/*<br />
+            &nbsp;&nbsp;여러 줄 주석:<br />
+            &nbsp;&nbsp;이렇게 여러 줄에 걸쳐<br />
+            &nbsp;&nbsp;메모를 남길 수 있습니다<br />
+            */</span
+          >
+        </div>
+      </div>
+
+      <!-- 섹션 5: 연습 문제 -->
+      <div class="section" style="border-bottom: none">
+        <h2>5. 연습 문제</h2>
+        <p>
+          이 파일의 맨 아래 <code>&lt;script&gt;</code> 태그 안에 코드를
+          작성해보세요!
+        </p>
+
+        <ol style="margin-left: 20px; margin-top: 15px">
+          <li style="margin-bottom: 10px">
+            자신의 이름을 <code>alert()</code>로 출력해보세요
+          </li>
+          <li style="margin-bottom: 10px">
+            오늘 날짜를 <code>console.log()</code>로 출력해보세요
+          </li>
+          <li style="margin-bottom: 10px">
+            좋아하는 음식을 <code>innerHTML</code>로 아래 영역에 출력해보세요
+          </li>
+        </ol>
+
+        <div class="demo-area" id="practice-area">
+          여기에 좋아하는 음식을 출력해보세요!
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript 코드 작성 영역 -->
+    <script>
+      // ============================================
+      // 🎯 여기에 연습 문제 코드를 작성하세요!
+      // ============================================
+
+      // 예시: 콘솔에 "Hello, JavaScript!" 출력
+      console.log("Hello, JavaScript!");
+
+      // 연습 1: alert()로 자신의 이름 출력
+      // alert("홍길동");
+
+      // 연습 2: console.log()로 오늘 날짜 출력
+      // console.log("2026년 1월 28일");
+
+      // 연습 3: innerHTML로 좋아하는 음식 출력
+      // document.getElementById("practice-area").innerHTML = "피자 🍕";
+    </script>
+  </body>
+</html>

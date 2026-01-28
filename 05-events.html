@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5장. 이벤트 처리</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Malgun Gothic", sans-serif;
+        line-height: 1.8;
+        padding: 40px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #f7df1e;
+        background: #323330;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+      h2 {
+        color: #323330;
+        border-left: 4px solid #f7df1e;
+        padding-left: 15px;
+        margin: 30px 0 15px 0;
+      }
+      .code-box {
+        background: #2d2d2d;
+        color: #f8f8f2;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-family: "Consolas", "Monaco", monospace;
+        font-size: 14px;
+        overflow-x: auto;
+      }
+      .comment {
+        color: #6a9955;
+      }
+      .keyword {
+        color: #569cd6;
+      }
+      .string {
+        color: #ce9178;
+      }
+      .function {
+        color: #dcdcaa;
+      }
+      .property {
+        color: #9cdcfe;
+      }
+      .tip-box {
+        background: #fff3e0;
+        border: 2px solid #ff9800;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .tip-box::before {
+        content: "💡 TIP: ";
+        font-weight: bold;
+        color: #e65100;
+      }
+      .concept-box {
+        background: #e8f5e9;
+        border: 2px solid #4caf50;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+      }
+      .demo-area {
+        background: #e3f2fd;
+        border: 2px dashed #2196f3;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      button {
+        background: #f7df1e;
+        color: #323330;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        transition: all 0.3s;
+      }
+      button:hover {
+        transform: scale(1.05);
+        background: #323330;
+        color: #f7df1e;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background: #f7df1e;
+        color: #323330;
+      }
+      tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+      .event-box {
+        padding: 30px;
+        margin: 15px 0;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 18px;
+        transition: all 0.3s;
+      }
+      #clickBox {
+        background: #ffebee;
+        border: 3px solid #f44336;
+        cursor: pointer;
+      }
+      #hoverBox {
+        background: #e8f5e9;
+        border: 3px solid #4caf50;
+      }
+      #inputDemo {
+        padding: 15px;
+        font-size: 18px;
+        border: 3px solid #2196f3;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 400px;
+      }
+      #keyDisplay {
+        margin-top: 15px;
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 16px;
+      }
+      .key-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        background: #323330;
+        color: #f7df1e;
+        border-radius: 5px;
+        margin: 5px;
+        font-size: 14px;
+      }
+      #mouseTracker {
+        height: 200px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+        cursor: crosshair;
+      }
+      #scrollDemo {
+        height: 150px;
+        overflow-y: scroll;
+        background: #fff3e0;
+        border: 3px solid #ff9800;
+        border-radius: 8px;
+        padding: 20px;
+      }
+      #scrollContent {
+        height: 500px;
+        background: linear-gradient(to bottom, #fff3e0, #ffe0b2);
+      }
+      #scrollInfo {
+        position: sticky;
+        top: 10px;
+        background: #ff9800;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .form-demo {
+        background: #f3e5f5;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .form-demo input,
+      .form-demo select {
+        padding: 10px;
+        margin: 10px 5px;
+        font-size: 16px;
+        border: 2px solid #9c27b0;
+        border-radius: 5px;
+      }
+      .form-demo button {
+        background: #9c27b0;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎯 5장. 이벤트 처리 (Event Handling)</h1>
+
+      <!-- 섹션 1: 이벤트란? -->
+      <div class="section">
+        <h2>1. 이벤트란?</h2>
+
+        <div class="concept-box">
+          <strong>이벤트(Event)</strong>는 웹 페이지에서 발생하는 사건입니다.<br />
+          예: 클릭, 키보드 입력, 마우스 이동, 스크롤, 폼 제출 등<br /><br />
+          JavaScript로 이벤트를 감지하고 반응하는 코드를 작성할 수 있습니다.
+        </div>
+
+        <table>
+          <tr>
+            <th>이벤트 종류</th>
+            <th>이벤트 이름</th>
+            <th>발생 시점</th>
+          </tr>
+          <tr>
+            <td>마우스</td>
+            <td>
+              <code>click</code>, <code>dblclick</code>, <code>mouseover</code>,
+              <code>mouseout</code>
+            </td>
+            <td>클릭, 더블클릭, 마우스 올림/벗어남</td>
+          </tr>
+          <tr>
+            <td>키보드</td>
+            <td>
+              <code>keydown</code>, <code>keyup</code>, <code>keypress</code>
+            </td>
+            <td>키 누름, 키 뗌</td>
+          </tr>
+          <tr>
+            <td>폼</td>
+            <td>
+              <code>submit</code>, <code>change</code>, <code>focus</code>,
+              <code>blur</code>
+            </td>
+            <td>제출, 값 변경, 포커스</td>
+          </tr>
+          <tr>
+            <td>문서/윈도우</td>
+            <td><code>load</code>, <code>scroll</code>, <code>resize</code></td>
+            <td>로드 완료, 스크롤, 크기 변경</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 섹션 2: 이벤트 처리 방법 -->
+      <div class="section">
+        <h2>2. 이벤트 처리 방법 3가지</h2>
+
+        <h3>방법 1: HTML 속성 (인라인)</h3>
+        <div class="code-box">
+          <span class="comment">&lt;!-- HTML에서 직접 이벤트 처리 --&gt;</span
+          ><br />
+          &lt;button <span class="property">onclick</span>=<span class="string"
+            >"alert('클릭!')"</span
+          >&gt;클릭&lt;/button&gt;<br />
+          &lt;input <span class="property">onchange</span>=<span class="string"
+            >"handleChange()"</span
+          >&gt;
+        </div>
+
+        <h3>방법 2: DOM 프로퍼티</h3>
+        <div class="code-box">
+          <span class="comment">// JavaScript에서 이벤트 핸들러 지정</span
+          ><br />
+          <span class="keyword">const</span> btn = document.<span
+            class="function"
+            >getElementById</span
+          >(<span class="string">"myBtn"</span>);<br />
+          btn.<span class="property">onclick</span> =
+          <span class="keyword">function</span>() {<br />
+          &nbsp;&nbsp;alert(<span class="string">"클릭!"</span>);<br />
+          };
+        </div>
+
+        <h3>방법 3: addEventListener (권장! ⭐)</h3>
+        <div class="code-box">
+          <span class="comment"
+            >// addEventListener로 이벤트 등록 (가장 권장되는 방법)</span
+          ><br />
+          <span class="keyword">const</span> btn = document.<span
+            class="function"
+            >getElementById</span
+          >(<span class="string">"myBtn"</span>);<br /><br />
+          btn.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"click"</span
+          >, <span class="keyword">function</span>() {<br />
+          &nbsp;&nbsp;alert(<span class="string">"클릭!"</span>);<br />
+          });<br /><br />
+          <span class="comment">// 화살표 함수로도 가능</span><br />
+          btn.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"click"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;alert(<span class="string">"클릭!"</span>);<br />
+          });
+        </div>
+
+        <div class="tip-box">
+          <code>addEventListener</code>를 사용하면 하나의 요소에 여러 이벤트
+          핸들러를 등록할 수 있습니다!
+        </div>
+      </div>
+
+      <!-- 섹션 3: 클릭 이벤트 -->
+      <div class="section">
+        <h2>3. 클릭 이벤트 (click)</h2>
+
+        <div class="demo-area">
+          <div id="clickBox" class="event-box">
+            👆 이 박스를 클릭해보세요!<br />
+            <span id="clickCount">클릭 횟수: 0</span>
+          </div>
+          <button id="resetClickBtn">카운터 리셋</button>
+        </div>
+
+        <div class="code-box">
+          <span class="keyword">let</span> count =
+          <span class="number">0</span>;<br /><br />
+          clickBox.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"click"</span
+          >, <span class="keyword">function</span>() {<br />
+          &nbsp;&nbsp;count++;<br />
+          &nbsp;&nbsp;countDisplay.textContent =
+          <span class="string">`클릭 횟수: ${count}`</span>;<br />
+          });
+        </div>
+      </div>
+
+      <!-- 섹션 4: 마우스 이벤트 -->
+      <div class="section">
+        <h2>4. 마우스 이벤트 (mouseover, mouseout, mousemove)</h2>
+
+        <div class="demo-area">
+          <div id="hoverBox" class="event-box">🖱️ 마우스를 올려보세요!</div>
+
+          <div id="mouseTracker">마우스를 이 영역에서 움직여보세요!</div>
+        </div>
+
+        <div class="code-box">
+          <span class="comment">// mouseover: 마우스가 올라갔을 때</span><br />
+          box.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"mouseover"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;box.style.background =
+          <span class="string">"#4caf50"</span>;<br />
+          });<br /><br />
+          <span class="comment">// mouseout: 마우스가 벗어났을 때</span><br />
+          box.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"mouseout"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;box.style.background =
+          <span class="string">"#e8f5e9"</span>;<br />
+          });<br /><br />
+          <span class="comment">// mousemove: 마우스가 움직일 때</span><br />
+          tracker.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"mousemove"</span
+          >, (e) =&gt; {<br />
+          &nbsp;&nbsp;console.log(<span class="string"
+            >`X: ${e.clientX}, Y: ${e.clientY}`</span
+          >);<br />
+          });
+        </div>
+      </div>
+
+      <!-- 섹션 5: 키보드 이벤트 -->
+      <div class="section">
+        <h2>5. 키보드 이벤트 (keydown, keyup)</h2>
+
+        <div class="demo-area">
+          <input
+            type="text"
+            id="inputDemo"
+            placeholder="여기에 타이핑해보세요..."
+          />
+          <div id="keyDisplay">
+            <p>입력한 값: <span id="inputValue">-</span></p>
+            <p>누른 키: <span id="keyPressed">-</span></p>
+            <p>키 코드: <span id="keyCode">-</span></p>
+          </div>
+          <div id="keyHistory"></div>
+        </div>
+
+        <div class="code-box">
+          input.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"keydown"</span
+          >, <span class="keyword">function</span>(e) {<br />
+          &nbsp;&nbsp;console.log(<span class="string">"누른 키:"</span>,
+          e.key);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 키 이름 (예: "a", "Enter")</span
+          ><br />
+          &nbsp;&nbsp;console.log(<span class="string">"키 코드:"</span>,
+          e.code);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 키 코드 (예: "KeyA", "Enter")</span
+          ><br />
+          &nbsp;&nbsp;console.log(<span class="string">"Ctrl 키:"</span>,
+          e.ctrlKey);&nbsp;&nbsp;<span class="comment"
+            >// Ctrl 키 누름 여부</span
+          ><br />
+          &nbsp;&nbsp;console.log(<span class="string">"Shift 키:"</span>,
+          e.shiftKey);<span class="comment">// Shift 키 누름 여부</span><br />
+          });
+        </div>
+
+        <div class="tip-box">
+          <strong>Enter 키 감지하기:</strong><br />
+          <code>if (e.key === "Enter") { /* 엔터 처리 */ }</code>
+        </div>
+      </div>
+
+      <!-- 섹션 6: 폼 이벤트 -->
+      <div class="section">
+        <h2>6. 폼 이벤트 (submit, change, focus, blur)</h2>
+
+        <div class="demo-area">
+          <div class="form-demo">
+            <form id="demoForm">
+              <input type="text" id="nameInput" placeholder="이름" />
+              <input type="email" id="emailInput" placeholder="이메일" />
+              <select id="colorSelect">
+                <option value="">색상 선택</option>
+                <option value="red">빨강</option>
+                <option value="green">초록</option>
+                <option value="blue">파랑</option>
+              </select>
+              <button type="submit">제출</button>
+            </form>
+            <div id="formResult" style="margin-top: 15px"></div>
+          </div>
+        </div>
+
+        <div class="code-box">
+          <span class="comment">// submit: 폼 제출 시</span><br />
+          form.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"submit"</span
+          >, <span class="keyword">function</span>(e) {<br />
+          &nbsp;&nbsp;e.<span class="function">preventDefault</span
+          >();&nbsp;&nbsp;<span class="comment">// 페이지 새로고침 방지!</span
+          ><br />
+          &nbsp;&nbsp;<span class="comment">// 폼 데이터 처리...</span><br />
+          });<br /><br />
+
+          <span class="comment">// change: 값이 변경되었을 때</span><br />
+          select.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"change"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;console.log(<span class="string">"선택된 값:"</span>,
+          select.value);<br />
+          });<br /><br />
+
+          <span class="comment">// focus: 포커스 받았을 때</span><br />
+          input.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"focus"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;input.style.borderColor =
+          <span class="string">"blue"</span>;<br />
+          });<br /><br />
+
+          <span class="comment">// blur: 포커스 잃었을 때</span><br />
+          input.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"blur"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;input.style.borderColor =
+          <span class="string">"gray"</span>;<br />
+          });
+        </div>
+
+        <div class="tip-box">
+          <code>e.preventDefault()</code>는 기본 동작을 막습니다.<br />
+          폼 제출 시 페이지 새로고침을 막거나, 링크 클릭 시 이동을 막을 때
+          사용합니다.
+        </div>
+      </div>
+
+      <!-- 섹션 7: 스크롤 이벤트 -->
+      <div class="section">
+        <h2>7. 스크롤 이벤트 (scroll)</h2>
+
+        <div class="demo-area">
+          <div id="scrollDemo">
+            <div id="scrollContent">
+              <div id="scrollInfo">스크롤 위치: 0px</div>
+              <p style="margin-top: 20px">↓ 아래로 스크롤해보세요 ↓</p>
+              <p style="margin-top: 200px">계속 스크롤...</p>
+              <p style="margin-top: 200px">🎉 끝!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-box">
+          element.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"scroll"</span
+          >, <span class="keyword">function</span>() {<br />
+          &nbsp;&nbsp;<span class="keyword">const</span> scrollTop =
+          <span class="keyword">this</span>.scrollTop;&nbsp;&nbsp;<span
+            class="comment"
+            >// 스크롤 위치</span
+          ><br />
+          &nbsp;&nbsp;console.log(<span class="string"
+            >`스크롤 위치: ${scrollTop}px`</span
+          >);<br />
+          });
+        </div>
+      </div>
+
+      <!-- 섹션 8: 이벤트 객체 -->
+      <div class="section">
+        <h2>8. 이벤트 객체 (Event Object)</h2>
+        <p>이벤트가 발생하면 자동으로 이벤트 객체가 전달됩니다.</p>
+
+        <div class="code-box">
+          element.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"click"</span
+          >, <span class="keyword">function</span>(<span class="property"
+            >e</span
+          >) {<br />
+          &nbsp;&nbsp;<span class="comment"
+            >// e는 이벤트 객체 (event의 약자)</span
+          ><br /><br />
+          &nbsp;&nbsp;console.log(e.<span class="property">target</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 이벤트가 발생한 요소</span
+          ><br />
+          &nbsp;&nbsp;console.log(e.<span class="property">type</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            >// 이벤트 타입 ("click")</span
+          ><br />
+          &nbsp;&nbsp;console.log(e.<span class="property">clientX</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 마우스 X 좌표</span
+          ><br />
+          &nbsp;&nbsp;console.log(e.<span class="property">clientY</span
+          >);&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            >// 마우스 Y 좌표</span
+          ><br /><br />
+          &nbsp;&nbsp;e.<span class="function">preventDefault</span
+          >();&nbsp;&nbsp;&nbsp;<span class="comment">// 기본 동작 방지</span
+          ><br />
+          &nbsp;&nbsp;e.<span class="function">stopPropagation</span
+          >();&nbsp;<span class="comment">// 이벤트 버블링 방지</span><br />
+          });
+        </div>
+      </div>
+
+      <!-- 섹션 9: 종합 실습 -->
+      <div class="section" style="border-bottom: none">
+        <h2>9. 종합 실습 - 간단한 To-Do 리스트</h2>
+
+        <div class="demo-area">
+          <h3 style="margin-bottom: 15px">📝 할 일 목록</h3>
+          <div style="display: flex; gap: 10px; margin-bottom: 15px">
+            <input
+              type="text"
+              id="todoInput"
+              placeholder="할 일을 입력하세요"
+              style="
+                flex: 1;
+                padding: 12px;
+                font-size: 16px;
+                border: 2px solid #2196f3;
+                border-radius: 5px;
+              "
+            />
+            <button id="addTodoBtn">추가</button>
+          </div>
+          <ul id="todoList" style="list-style: none; text-align: left"></ul>
+          <p style="margin-top: 15px; color: #666">
+            * 항목을 클릭하면 완료 표시, 더블클릭하면 삭제됩니다.
+          </p>
+        </div>
+
+        <div class="code-box">
+          <span class="comment">// To-Do 리스트 주요 로직</span><br /><br />
+          <span class="comment">// 1. 버튼 클릭 또는 Enter로 항목 추가</span
+          ><br />
+          addBtn.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"click"</span
+          >, addTodo);<br />
+          input.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"keypress"</span
+          >, (e) =&gt; {<br />
+          &nbsp;&nbsp;<span class="keyword">if</span> (e.key ===
+          <span class="string">"Enter"</span>) addTodo();<br />
+          });<br /><br />
+          <span class="comment">// 2. 클릭으로 완료 표시</span><br />
+          item.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"click"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;item.classList.<span class="function">toggle</span>(<span
+            class="string"
+            >"completed"</span
+          >);<br />
+          });<br /><br />
+          <span class="comment">// 3. 더블클릭으로 삭제</span><br />
+          item.<span class="function">addEventListener</span>(<span
+            class="string"
+            >"dblclick"</span
+          >, () =&gt; {<br />
+          &nbsp;&nbsp;item.<span class="function">remove</span>();<br />
+          });
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ========== 섹션 3: 클릭 이벤트 ==========
+      let clickCount = 0;
+      const clickBox = document.getElementById("clickBox");
+      const clickCountDisplay = document.getElementById("clickCount");
+      const resetClickBtn = document.getElementById("resetClickBtn");
+
+      clickBox.addEventListener("click", function () {
+        clickCount++;
+        clickCountDisplay.textContent = `클릭 횟수: ${clickCount}`;
+
+        // 색상 변화 효과
+        const colors = ["#ffebee", "#fff3e0", "#e8f5e9", "#e3f2fd", "#f3e5f5"];
+        clickBox.style.backgroundColor = colors[clickCount % colors.length];
+      });
+
+      resetClickBtn.addEventListener("click", function () {
+        clickCount = 0;
+        clickCountDisplay.textContent = "클릭 횟수: 0";
+        clickBox.style.backgroundColor = "#ffebee";
+      });
+
+      // ========== 섹션 4: 마우스 이벤트 ==========
+      const hoverBox = document.getElementById("hoverBox");
+
+      hoverBox.addEventListener("mouseover", function () {
+        this.style.backgroundColor = "#4caf50";
+        this.style.color = "white";
+        this.textContent = "✨ 마우스가 올라왔어요!";
+      });
+
+      hoverBox.addEventListener("mouseout", function () {
+        this.style.backgroundColor = "#e8f5e9";
+        this.style.color = "#323330";
+        this.textContent = "🖱️ 마우스를 올려보세요!";
+      });
+
+      const mouseTracker = document.getElementById("mouseTracker");
+
+      mouseTracker.addEventListener("mousemove", function (e) {
+        const rect = this.getBoundingClientRect();
+        const x = Math.round(e.clientX - rect.left);
+        const y = Math.round(e.clientY - rect.top);
+        this.textContent = `X: ${x}, Y: ${y}`;
+      });
+
+      mouseTracker.addEventListener("mouseleave", function () {
+        this.textContent = "마우스를 이 영역에서 움직여보세요!";
+      });
+
+      // ========== 섹션 5: 키보드 이벤트 ==========
+      const inputDemo = document.getElementById("inputDemo");
+      const inputValue = document.getElementById("inputValue");
+      const keyPressed = document.getElementById("keyPressed");
+      const keyCodeDisplay = document.getElementById("keyCode");
+      const keyHistory = document.getElementById("keyHistory");
+
+      inputDemo.addEventListener("keydown", function (e) {
+        keyPressed.textContent = e.key;
+        keyCodeDisplay.textContent = e.code;
+
+        // 키 히스토리 추가
+        const badge = document.createElement("span");
+        badge.className = "key-badge";
+        badge.textContent = e.key;
+        keyHistory.appendChild(badge);
+
+        // 최대 10개까지만 표시
+        if (keyHistory.children.length > 10) {
+          keyHistory.removeChild(keyHistory.firstChild);
+        }
+      });
+
+      inputDemo.addEventListener("input", function () {
+        inputValue.textContent = this.value || "-";
+      });
+
+      // ========== 섹션 6: 폼 이벤트 ==========
+      const demoForm = document.getElementById("demoForm");
+      const nameInput = document.getElementById("nameInput");
+      const emailInput = document.getElementById("emailInput");
+      const colorSelect = document.getElementById("colorSelect");
+      const formResult = document.getElementById("formResult");
+
+      demoForm.addEventListener("submit", function (e) {
+        e.preventDefault(); // 페이지 새로고침 방지!
+
+        const name = nameInput.value;
+        const email = emailInput.value;
+        const color = colorSelect.value;
+
+        if (!name || !email) {
+          formResult.innerHTML =
+            '<span style="color: red;">⚠️ 이름과 이메일을 입력해주세요!</span>';
+          return;
+        }
+
+        formResult.innerHTML = `
+                <div style="background: #e8f5e9; padding: 15px; border-radius: 5px;">
+                    ✅ 제출 완료!<br>
+                    이름: ${name}<br>
+                    이메일: ${email}<br>
+                    선택한 색상: ${color || "없음"}
+                </div>
+            `;
+      });
+
+      // focus, blur 이벤트
+      [nameInput, emailInput].forEach((input) => {
+        input.addEventListener("focus", function () {
+          this.style.borderColor = "#9c27b0";
+          this.style.boxShadow = "0 0 5px rgba(156, 39, 176, 0.5)";
+        });
+
+        input.addEventListener("blur", function () {
+          this.style.borderColor = "#9c27b0";
+          this.style.boxShadow = "none";
+        });
+      });
+
+      // change 이벤트
+      colorSelect.addEventListener("change", function () {
+        if (this.value) {
+          this.style.backgroundColor = this.value;
+          this.style.color = "white";
+        } else {
+          this.style.backgroundColor = "";
+          this.style.color = "";
+        }
+      });
+
+      // ========== 섹션 7: 스크롤 이벤트 ==========
+      const scrollDemo = document.getElementById("scrollDemo");
+      const scrollInfo = document.getElementById("scrollInfo");
+
+      scrollDemo.addEventListener("scroll", function () {
+        const scrollTop = Math.round(this.scrollTop);
+        scrollInfo.textContent = `스크롤 위치: ${scrollTop}px`;
+
+        // 스크롤 진행률에 따라 색상 변경
+        const maxScroll = this.scrollHeight - this.clientHeight;
+        const progress = scrollTop / maxScroll;
+        const hue = Math.round(progress * 120); // 0(빨강) -> 120(초록)
+        scrollInfo.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
+      });
+
+      // ========== 섹션 9: To-Do 리스트 ==========
+      const todoInput = document.getElementById("todoInput");
+      const addTodoBtn = document.getElementById("addTodoBtn");
+      const todoList = document.getElementById("todoList");
+
+      function addTodo() {
+        const text = todoInput.value.trim();
+        if (!text) {
+          alert("할 일을 입력해주세요!");
+          return;
+        }
+
+        // 새 항목 생성
+        const li = document.createElement("li");
+        li.textContent = text;
+        li.style.cssText = `
+                padding: 12px 15px;
+                margin: 8px 0;
+                background: white;
+                border-radius: 5px;
+                border-left: 4px solid #2196f3;
+                cursor: pointer;
+                transition: all 0.3s;
+            `;
+
+        // 클릭: 완료 표시
+        li.addEventListener("click", function () {
+          this.classList.toggle("completed");
+          if (this.classList.contains("completed")) {
+            this.style.textDecoration = "line-through";
+            this.style.opacity = "0.6";
+            this.style.borderLeftColor = "#4caf50";
+          } else {
+            this.style.textDecoration = "none";
+            this.style.opacity = "1";
+            this.style.borderLeftColor = "#2196f3";
+          }
+        });
+
+        // 더블클릭: 삭제
+        li.addEventListener("dblclick", function () {
+          this.style.transform = "translateX(100px)";
+          this.style.opacity = "0";
+          setTimeout(() => this.remove(), 300);
+        });
+
+        // 마우스 호버 효과
+        li.addEventListener("mouseover", function () {
+          if (!this.classList.contains("completed")) {
+            this.style.transform = "translateX(5px)";
+          }
+        });
+        li.addEventListener("mouseout", function () {
+          if (!this.classList.contains("completed")) {
+            this.style.transform = "translateX(0)";
+          }
+        });
+
+        // 리스트에 추가
+        todoList.appendChild(li);
+
+        // 입력창 비우기
+        todoInput.value = "";
+        todoInput.focus();
+
+        console.log("할 일 추가:", text);
+      }
+
+      // 버튼 클릭으로 추가
+      addTodoBtn.addEventListener("click", addTodo);
+
+      // Enter 키로 추가
+      todoInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          addTodo();
+        }
+      });
+
+      // 콘솔 메시지
+      console.log("🎯 5장. 이벤트 처리");
+      console.log("F12를 눌러 콘솔을 확인하세요!");
+    </script>
+  </body>
+</html>
